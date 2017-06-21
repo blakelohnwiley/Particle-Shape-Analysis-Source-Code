@@ -1,15 +1,7 @@
-Look at the documentation on http://tarleton.edu/usli/ for Arduino and sensor hardware documentation.
-
-TwoWaySerialComm is the ground station GUI. It is a NetBeans Java project.
-
+Jornal Article can be found here: http://www.sciencedirect.com/science/article/pii/S0032591015301327
 
 Main Contributors:
-- John Phillips
-- Billy Fournier
+- Doug Rickman
 - Blake Lohn-Wiley
-- Bert Hess
-- Jake Rhodes
-- Ethan Moore
-- Cletus Fuhurmen
-- Various open source libraries
-- Others who I probably forgot to mention
+- Joshua Knicely 
+- Brian Hannan
