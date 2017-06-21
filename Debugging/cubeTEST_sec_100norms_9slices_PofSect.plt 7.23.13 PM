@@ -1,0 +1,139 @@
+# - - - - - Introduction - - -  - - - - - - - - - - - - - - - - 
+# Plane of Section Model ResultsFor the solid cubeTEST_sec_100norms_9slices
+# Graph Relative Frequency of Aspect Ratio vs Heywood Factor using gnuplot.
+# The path is set to /Users/doug2/Documents/MATLAB/.  Edit the "path1" and "path2 lines to change this.
+# This script designed by Doug Rickman, Jan 30, 2014, mod: July 3, 2014
+# set terminal pdf enhanced dashed dl 3 size 7,7 
+set terminal pdfcairo enhanced color dashed dashlength 3 size 7,7   # The size affects the dimensions of the plot.
+ 
+# - - - - - Define Macro Terms. Set Input and Output Files - -  
+set macros
+dquote    = '"'
+path1     = "/Users/doug2/Documents/"
+path2     = "MATLAB/"
+outfile   = "cubeTEST_sec_100norms_9slices_PofSect.pdf"
+infile    = "cubeTEST_sec_100norms_9slices_PofSect.txt"
+imagefile = "cubeTEST.png"
+set output @dquote@path1@path2@outfile@dquote
+ 
+# - - - - - Define Line Styles -- - - - - - - - - - - - - - - -  
+set style line 1  lt 0  lw 3  lc rgbcolor 'black'   # dot
+set style line 2  lt 1  lw 3  lc rgbcolor 'black'   # solid
+set style line 3  lt 2  lw 10 lc rgbcolor 'grey70'  # long dash
+set style line 4  lt 3  lw 10 lc rgbcolor 'grey50'  # short dash
+set style line 5  lt 4  lw 3  lc rgbcolor 'black'   # long short long short
+set style line 6  lt 5  lw 3  lc rgbcolor 'black'   # long short short long
+set style line 13 lt 2  lw 12 lc rgbcolor 'black'   # long dash
+set style line 14 lt 3  lw 11 lc rgbcolor 'black'   # short dash
+ 
+# - - - - - Set General Controls - - - - - - - - - - - - - - -  
+set grid                        # grid and cntrparam are used with contours
+set cntrparam bspline
+set cntrparam order 10
+set view equal xyz              # View establishes the orientation and visual geometry of the plot
+set view 0,0,1.5,1              # This affects the dimensions of the plot.
+unset xlabel                    # Remove any existing X, Y, Z axes labels
+unset ylabel
+unset zlabel
+unset key                       # Do not display a key
+unset zrange                    # Free the range of Z values
+unset colorbox                  # Turn off the color box
+set xrange [0:1]                # Set the X range of the plot
+set yrange [0:1]                # Set the Y range of the plot
+set zrange [0:100]              # Set the Z range of the plot
+unset ztics                     # Turn off tics on the Z axis
+set mxtics 2                    # Define minor tics frequency on X axis
+set mytics 2                    # Define minor tics frequency on Y axis
+set multiplot                   # Allow multiple plots in the same space
+set size 0.95, 0.95             # Set the size of the plot
+set origin 0.0, 0.01            # Set the starting location of the plot
+ 
+# - - - - - Define the Labels - - - - - - - - - - - - - - - - -  
+set label 1 'cubeTEST'            font 'Helvetica,30' at  0.5 ,  1.1 , 0 center
+set label 2 'n Total   {\011}= 726'           font 'Helvetica,20' at  0.15,  0.28 , 0
+set label 3 'Bin Size  {\011}= 0.01'       font 'Helvetica,17' at  0.15,  0.23
+set label 4 'N Normals{\011}= 100'            font 'Helvetica,17' at  0.15,  0.19
+set label 5 'N Slices  {\011}= 9'         font 'Helvetica,17' at  0.15,  0.15
+set label 6 'Aspect Ratio'                   font 'Helvetica,28' at  0.5 ,  -0.09, 0 center
+set label 7 'Heywood Factor'                 font 'Helvetica,28' at -0.05 ,  0.5 , 0 center rotate by 90
+set label 8 'Normalized Frequency'           font 'Helvetica,12' at screen 0.10,  0.02, 0 left
+set label 9 'Polygons < 0.05 of max area dropped' font 'Helvetica,12' at screen 0.45,  0.02, 0 center
+set label 10 'Plane of Section Model Results' font 'Helvetica,12' at screen 0.64,  0.02, 0 left
+ 
+# - Create grid lines and tics every 0.2 intervals on both axes -  
+set xtics 0.2 format "%.1f" font 'Helvetica,20' offset -0.35,-0.3
+set ytics 0.2 format "%.1f" font 'Helvetica,20' offset -0.35,-0.3
+ 
+set surface                     # Show the data as a surface
+unset contour                   # Do not show the data as contours
+ 
+# - - - - - Choose Which Data To Plot And How - - - - - - - - - -  
+# - Later Plots Overwrite Earlier Plots BUT DO NOT ERASE THEM - -  
+# - -  - Plots may be reordered by changing their sequence. - - -  
+ 
+# To plot the individual data points turn on the following line. 
+# splot @dquote@path1@path2@infile@dquote  index 5 using 1:2:3 with points pointtype 7 lc rgbcolor 'dark-green'  pointsize 0.2 # filled circles
+ 
+# In the 95, 75 and 50% plots, the data are plotted twice, to create an outline effect.
+# The bins are plotted as points using a hollow square symbol!!!
+# The point size of each of a pair of plots is scaled to match the bin size used and the dimensions of the plot.
+# The first plot of a pair is larger and creates an black outline effect for the data cloud.
+# The plotted symbols are shifted so they align graphically on the bins in the plot.
+# If something changes the dimensions of the plot, the size of the symbols must be changed.
+ 
+# To plot the bins containing 95% of the data.
+# splot @dquote@path1@path2@infile@dquote  index 2 using ($1+0.005):($2+0.005):($3) with points pointtype 5 lc rgbcolor 'black'  pointsize 0.8    # Hollow squares, used to outline
+# splot @dquote@path1@path2@infile@dquote  index 2 using ($1+0.005):($2+0.005):($3) with points pointtype 5 lc rgbcolor 'lemonchiffon'  pointsize 0.60    # solid squares
+ 
+# To plot the bins containing 75% of the data
+# splot @dquote@path1@path2@infile@dquote  index 3 using ($1+0.005):($2+0.005):($3) with points pointtype 5 lc rgbcolor 'royalblue'  pointsize 0.78 # solid squares
+# splot @dquote@path1@path2@infile@dquote  index 3 using ($1+0.005):($2+0.005):($3) with points pointtype 5 lc rgbcolor 'grey60'  pointsize 0.60 # solid squares
+ 
+# To plot the bins containing 50% of the data
+# splot @dquote@path1@path2@infile@dquote  index 4 using ($1+0.005):($2+0.005):($3) with points pointtype 5 lc rgbcolor 'light-red'  pointsize 0.78 # solid squares
+# splot @dquote@path1@path2@infile@dquote  index 4 using ($1+0.005):($2+0.005):($3) with points pointtype 5 lc rgbcolor 'grey20'  pointsize 0.60 # solid squares
+ 
+# To plot the binned data as contours turn on the following 9 lines. 
+# unset surface
+# set contour
+# set cntrparam levels incremental 0.00138, 0.0132, 0.0675
+# set cbrange [0.0:0.067493]
+# set label 11 'Contour (B,I,E)= 0.00138, 0.0132, 0.0675'   font 'Helvetica,17' at  0.15,  0.06
+# splot @dquote@path1@path2@infile@dquote  index 1 using ($1+0.005):($2+0.005):($3) w l lw 3 palette
+# set surface
+# unset contour
+ 
+# To plot the normalized, binned data as a greyscale or a colored surface first turn on 1 of the following 2 lines.
+# set palette defined (  0 "white", 0.1 "grey", 5 "black")   # Use this line for a greyscale plot.
+ set palette defined (  0 "white", 0.1 "light-magenta", 0.1 "dark-magenta", 1 "blue", 2 "forest-green", 3 "orange", 4 "red", 5 "black") # Use this line for colored plot.
+# Second, turn on the  turn on 6 of the following 5 lines. 
+ set colorbox horizontal user origin 0.18,0.17 size 0.28,0.03
+ set cbrange [0.0:0.08]
+ set cbtics 0.02 format "%.3f" # Adjust the tic interval from 0.002 as needed
+ splot @dquote@path1@path2@infile@dquote  index 1 using ($1+0.005):($2+0.005):($3>0.00000 ? $3 : NaN) with points pointtype 5 lc rgbcolor "black"  pointsize 0.88
+ splot @dquote@path1@path2@infile@dquote  index 1 using ($1+0.005):($2+0.005):($3>0.00000 ? $3 : NaN) with points pointtype 5 palette  pointsize 0.68
+ 
+# - - - - - Do the Ellipse, Rectange and Triangle Lines - -  - -  
+# To plot the lines for ellipses, rectangles and triangles turn on the following lines. 
+set format xy""
+set xtics 0.1
+set ytics 0.1
+splot @dquote@path1@path2@infile@dquote   index 0 using 1:2:7 w l ls 2  # Ellipse
+splot @dquote@path1@path2@infile@dquote   index 0 using 3:4:7 w l ls 13 # Rectangle
+splot @dquote@path1@path2@infile@dquote   index 0 using 3:4:7 w l ls 3  # Rectangle
+splot @dquote@path1@path2@infile@dquote   index 0 using 5:6:7 w l ls 14 # Isoceles triangle
+splot @dquote@path1@path2@infile@dquote   index 0 using 5:6:7 w l ls 4  # Isoceles triangle
+ 
+# - - - - - Insert an image into the plot - - - - - - -- -  - -  
+# Only .JPG and .PNG files may be used. 
+# The image is assumed to be approximately 1000 pixels wide by approx. 800 pixels high.
+# Edit the path and file name at the start of this script.
+# To insert the image, uncomment the next four lines.
+ set style rectangle back fc rgb "white" fs solid border
+ set object 101 rectangle from screen 0.48, 0.2, 0 to screen 0.78, 0.45, 0
+ set cbrange [*:*]
+ splot @dquote@path1@path2@imagefile@dquote binary filetype=auto origin=(0.48,0.1,0) dx=0.0005 dy=0.0005 with rgbimage
+
+ 
+unset multiplot                  # This causes all of the plots defined above to be rendered into the output file.
+exit

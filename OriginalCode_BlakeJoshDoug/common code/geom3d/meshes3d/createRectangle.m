@@ -1,0 +1,26 @@
+function varargout = createRectangle(xl,yl,zl)
+
+% xl, yl, and zl are the lengths of the prism in the x, y, and z
+% directions. 
+
+x0 = -0.5*xl; dx= xl;
+y0 = -0.5*yl; dy= yl;
+z0 = -0.5*zl; dz= zl;
+
+nodes = [...
+    x0 y0 z0; ...
+    x0+dx y0 z0; ...
+    x0 y0+dy z0; ...
+    x0+dx y0+dy z0; ...
+    x0 y0 z0+dz; ...
+    x0+dx y0 z0+dz; ...
+    x0 y0+dy z0+dz; ...
+    x0+dx y0+dy z0+dz]; 
+
+edges = [1 2;1 3;1 5;2 4;2 6;3 4;3 7;4 8;5 6;5 7;6 8;7 8]; 
+
+% faces are oriented such that normals point outwards
+faces = [1 3 4 2;5 6 8 7;2 4 8 6;1 5 7 3;1 2 6 5;3 7 8 4];
+
+% format output
+varargout = formatMeshOutput(nargout, nodes, edges, faces);
